@@ -1,0 +1,72 @@
+<!doctype html>
+<html ng-app="TaskApp">
+
+<head>
+  <meta charset="utf-8">
+  <title>Angular.js ToDo Example</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+</head>
+
+<body ng-controller="TaskCtrl">
+  <input ng-model="newTask.description" type="text"><button ng-click="addTask()">Add</button>
+  <h2>All tasks</h2>
+  <ul>
+    <li ng-repeat="task in tasks">
+      {{ task.description }}&nbsp;<input type="checkbox" ng-model="task.completed" />
+    </li>
+  </ul>
+
+  <h2>Completed Tasks</h2>
+  <ul>
+    <li ng-repeat="task in tasks  | filter:{completed:true}">
+      {{ task.description }}&nbsp;<input type="checkbox" ng-model="task.completed" />
+    </li>
+  </ul>
+
+  <h2>Incomplete Tasks</h2>
+  <ul>
+    <li ng-repeat="task in tasks  | filter:{completed:false}">
+      {{ task.description }}&nbsp;<input type="checkbox" ng-model="task.completed" />
+    </li>
+  </ul>
+  <script>
+    var TaskApp = angular.module('TaskApp', []);
+    TaskApp.controller('TaskCtrl', function ($scope) {
+      $scope.tasks = [{
+        description: 'Go to the store',
+        completed: false
+      },
+      {
+        description: 'Find a hobby',
+        completed: true
+      },
+      {
+        description: 'Download movie',
+        completed: false
+      },
+      {
+        description: 'Make Dinner',
+        completed: true
+      },
+      {
+        description: 'Eat food',
+        completed: false
+      }
+      ];
+      $scope.newTask = {
+        description: '',
+        completed: false
+      }
+
+      $scope.addTask = function () {
+        $scope.tasks.push({
+          description: $scope.newTask.description,
+          completed: $scope.newTask.completed
+        })
+        $scope.newTask.description = ""
+      }
+    });
+  </script>
+</body>
+
+</html>
